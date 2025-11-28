@@ -1,0 +1,28 @@
+name: Oil Price Predictor Schedule
+
+on:
+  schedule:
+    # 每天早上 9:00 (UTC+8) 运行一次
+    # 这里的 '0 1 * * *' 是 UTC 时间，即北京时间早上 9 点
+    - cron: '0 1 * * *' 
+  workflow_dispatch: # 允许手动点击运行
+
+jobs:
+  run_prediction:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: pip install requests beautifulsoup4
+
+      - name: Run Python Script
+        # 运行你的 Python 文件
+        run: python oil_predictor.py
